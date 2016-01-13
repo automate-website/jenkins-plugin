@@ -10,7 +10,7 @@
     </parent>
     <groupId>website.automate.plugins.jenkins</groupId>
     <artifactId>automate-website-jenkins-plugin</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1-SNAPSHOT</version>
     <packaging>hpi</packaging>
 
     <organization>
@@ -91,7 +91,7 @@
         <url>https://github.com/automate-website/jenkins-plugin</url>
         <connection>scm:git:git@github.com:automate-website/jenkins-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:automate-website/jenkins-plugin.git</developerConnection>
-        <tag>0.1.0</tag>
+        <tag>HEAD</tag>
     </scm>
     
     <distributionManagement>
