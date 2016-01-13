@@ -14,5 +14,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - created initial implementation of the jenkins plugin
 
 [Unreleased]: https://github.com/automate-website/jenkins-plugin/compare/0.1.0...HEAD
-[0.0.1]: https://github.com/automate-website/jenkins-plugin/compare/0.0.1...0.1.0
+[0.1.0]: https://github.com/automate-website/jenkins-plugin/compare/0.0.1...0.1.0
+[0.0.1]: https://github.com/automate-website/jenkins-plugin/compare/0.0.0...0.0.1
 [manager-api-client]: https://github.com/automate-website/manager-api-client
