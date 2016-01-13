@@ -1,9 +1,12 @@
 package website.automate.plugins.jenkins.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public abstract class AbstractEntity {
+public abstract class AbstractSerializable implements Serializable {
 
+    private static final long serialVersionUID = 3611410129226004606L;
+    
     private String id;
     
     public String getId() {
@@ -27,7 +30,7 @@ public abstract class AbstractEntity {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        AbstractEntity other = (AbstractEntity) obj;
+        AbstractSerializable other = (AbstractSerializable) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

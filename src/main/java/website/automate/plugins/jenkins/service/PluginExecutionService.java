@@ -9,13 +9,14 @@ import java.util.List;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
 
-import website.automate.plugins.jenkins.model.Authentication;
-import website.automate.plugins.jenkins.model.Job;
-import website.automate.plugins.jenkins.model.TestResults;
-import website.automate.plugins.jenkins.model.Job.JobProfile;
-import website.automate.plugins.jenkins.model.Job.JobStatus;
-import website.automate.plugins.jenkins.model.Job.TakeScreenshots;
-import website.automate.plugins.jenkins.support.Constants;
+import website.automate.manager.api.client.JobManagementRemoteService;
+import website.automate.manager.api.client.model.Authentication;
+import website.automate.manager.api.client.model.Job;
+import website.automate.manager.api.client.model.Job.JobProfile;
+import website.automate.manager.api.client.model.Job.JobStatus;
+import website.automate.manager.api.client.model.Job.TakeScreenshots;
+import website.automate.manager.api.client.model.TestResults;
+import website.automate.manager.api.client.support.Constants;
 import website.automate.plugins.jenkins.support.ExecutionInterruptionException;
 
 public class PluginExecutionService {

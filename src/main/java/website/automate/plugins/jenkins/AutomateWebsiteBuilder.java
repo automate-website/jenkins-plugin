@@ -1,12 +1,15 @@
 package website.automate.plugins.jenkins;
 
+import static hudson.init.InitMilestone.PLUGINS_STARTED;
 import static java.util.Arrays.asList;
 import hudson.Launcher;
 import hudson.Extension;
 import hudson.util.FormValidation;
 import hudson.util.ListBoxModel;
+import hudson.init.Initializer;
 import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
+import hudson.model.Items;
 import hudson.model.Result;
 import hudson.model.AbstractProject;
 import hudson.tasks.Builder;
@@ -17,14 +20,20 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.QueryParameter;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import com.thoughtworks.xstream.annotations.XStreamInclude;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
+import website.automate.manager.api.client.ProjectRetrievalRemoteService;
+import website.automate.manager.api.client.model.Authentication;
+import website.automate.manager.api.client.model.Project;
+import website.automate.manager.api.client.support.CommunicationException;
 import website.automate.plugins.jenkins.logging.BuilderLogHandler;
-import website.automate.plugins.jenkins.model.Authentication;
-import website.automate.plugins.jenkins.model.Project;
-import website.automate.plugins.jenkins.model.Scenario;
+import website.automate.plugins.jenkins.mapper.ProjectMapper;
+import website.automate.plugins.jenkins.model.ProjectSerializable;
+import website.automate.plugins.jenkins.model.ScenarioSerializable;
 import website.automate.plugins.jenkins.service.PluginExecutionService;
-import website.automate.plugins.jenkins.service.ProjectRetrievalRemoteService;
-import website.automate.plugins.jenkins.support.CommunicationException;
-import website.automate.plugins.jenkins.support.Constants;
 
 import javax.servlet.ServletException;
 
@@ -33,6 +42,8 @@ import java.util.List;
 
 public class AutomateWebsiteBuilder extends Builder {
 
+    public static final String BUILDER_TITLE = "Automate Website Execution";
+    
     private final String project;
     
     private String scenario;
@@ -86,14 +97,22 @@ public class AutomateWebsiteBuilder extends Builder {
      * for the actual HTML fragment for the configuration screen.
      */
     @Extension // This indicates to Jenkins that this is an implementation of an extension point.
+    @XStreamAlias("descriptor")
     public static final class DescriptorImpl extends BuildStepDescriptor<Builder> {
 
+        private static final ProjectMapper PROJECT_MAPPER = ProjectMapper.getInstance();
+        
         private String username;
         
         private String password;
         
-        private List<Project> projects;
+        private List<ProjectSerializable> projects;
 
+        @Initializer(before=PLUGINS_STARTED)
+        public static void addAliases() {
+            Items.XSTREAM2.processAnnotations(new Class<?>[] { ProjectSerializable.class, ScenarioSerializable.class });
+        }
+        
         public DescriptorImpl() {
             load();
         }
@@ -104,7 +123,7 @@ public class AutomateWebsiteBuilder extends Builder {
         }
 
         public String getDisplayName() {
-            return Constants.BUILDER_TITLE;
+            return BUILDER_TITLE;
         }
 
         @Override
@@ -132,7 +151,7 @@ public class AutomateWebsiteBuilder extends Builder {
         private void configure(String newUsername, String newPassword){
             configure(newUsername, newPassword, true);
         }
-        
+
         public Authentication getAuthentication(){
         	return Authentication.of(username, password);
         }
@@ -144,20 +163,26 @@ public class AutomateWebsiteBuilder extends Builder {
             if(!(newUsername.equals(username) && newPassword.equals(password)) || forceProjectSync){
                 setUsername(newUsername);
                 setPassword(newPassword);
-                List<Project> projects = ProjectRetrievalRemoteService
-                        .getInstance()
-                        .getProjectsWithScenariosByPrincipal(Authentication.of(newUsername, newPassword));
+                List<ProjectSerializable> projects = retrieveAndMapProjects(newUsername, newPassword);
                 setProjects(projects);
                 
                 save();
             }
         }
         
+        private List<ProjectSerializable> retrieveAndMapProjects(String username, String password){
+            List<Project> projects = ProjectRetrievalRemoteService
+                    .getInstance()
+                    .getProjectsWithScenariosByPrincipal(Authentication.of(username, password));
+            
+            return PROJECT_MAPPER.safeMapList(projects);
+        }
+        
         public ListBoxModel doFillProjectItems() {
-            List<Project> projects = getProjects();
+            List<ProjectSerializable> projects = getProjects();
             ListBoxModel items = new ListBoxModel();
             
-            for (Project project : projects) {
+            for (ProjectSerializable project : projects) {
                 items.add(project.getTitle(), project.getId());
             }
             
@@ -171,14 +196,14 @@ public class AutomateWebsiteBuilder extends Builder {
                 return items;
             }
 
-            Project project = getProjectById(projectId);
-            List<Scenario> scenarios = project.getScenarios();
+            ProjectSerializable project = getProjectById(projectId);
+            List<ScenarioSerializable> scenarios = project.getScenarios();
             
             if(scenarios == null){
                 return items;
             }
 
-            for(Scenario scenario : scenarios){
+            for(ScenarioSerializable scenario : scenarios){
                 items.add(scenario.getTitle(),  asComboId(projectId, scenario.getId()));
             }
             
@@ -189,9 +214,9 @@ public class AutomateWebsiteBuilder extends Builder {
         	return projectId + ":" + scenarioId;
         }
         
-        private Project getProjectById(String projectId){
-            List<Project> projects = getProjects();
-            for(Project project : projects){
+        private ProjectSerializable getProjectById(String projectId){
+            List<ProjectSerializable> projects = getProjects();
+            for(ProjectSerializable project : projects){
                 if(project.getId().equals(projectId)){
                     return project;
                 }
@@ -215,11 +240,11 @@ public class AutomateWebsiteBuilder extends Builder {
             this.password = password;
         }
         
-        private List<Project> getProjects(){
+        private List<ProjectSerializable> getProjects(){
             return projects;
         }
         
-        private void setProjects(List<Project> projects){
+        private void setProjects(List<ProjectSerializable> projects){
             this.projects = projects;
         }
     }
