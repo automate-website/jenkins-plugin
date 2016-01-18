@@ -1,6 +1,6 @@
 # Jenkins Automate Website Plugin
 ## Short Description
-Integrates Jenkins CI with Automate Website Test Execution Environment.
+Integrates **Jenkins CI** with **Automate Website** Test Execution Environment.
 Account on [automate.website] is required for meaningful utilization.
 
 ## References
