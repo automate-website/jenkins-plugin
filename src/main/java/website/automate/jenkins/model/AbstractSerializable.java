@@ -1,4 +1,4 @@
-package website.automate.plugins.jenkins.model;
+package website.automate.jenkins.model;
 
 import java.io.Serializable;
 import java.util.Objects;

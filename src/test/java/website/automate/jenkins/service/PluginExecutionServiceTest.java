@@ -1,4 +1,4 @@
-package website.automate.plugins.jenkins.service;
+package website.automate.jenkins.service;
 
 import static java.util.Arrays.asList;
 import static org.mockito.Mockito.when;
@@ -11,6 +11,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import website.automate.jenkins.logging.NoOpLogHandler;
+import website.automate.jenkins.service.PluginExecutionService;
 import website.automate.manager.api.client.JobManagementRemoteService;
 import website.automate.manager.api.client.model.Authentication;
 import website.automate.manager.api.client.model.Job;
@@ -18,7 +20,6 @@ import website.automate.manager.api.client.model.Job.JobProfile;
 import website.automate.manager.api.client.model.Job.JobStatus;
 import website.automate.manager.api.client.model.Job.TakeScreenshots;
 import website.automate.manager.api.client.model.TestResults;
-import website.automate.plugins.jenkins.logging.NoOpLogHandler;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PluginExecutionServiceTest {

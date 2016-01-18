@@ -1,4 +1,4 @@
-package website.automate.plugins.jenkins.support;
+package website.automate.jenkins.support;
 
 public class ExecutionInterruptionException extends RuntimeException {
 

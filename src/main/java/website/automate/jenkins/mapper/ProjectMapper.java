@@ -1,7 +1,7 @@
-package website.automate.plugins.jenkins.mapper;
+package website.automate.jenkins.mapper;
 
+import website.automate.jenkins.model.ProjectSerializable;
 import website.automate.manager.api.client.model.Project;
-import website.automate.plugins.jenkins.model.ProjectSerializable;
 
 public class ProjectMapper extends Mapper<Project, ProjectSerializable> {
 

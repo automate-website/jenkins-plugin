@@ -1,4 +1,4 @@
-package website.automate.plugins.jenkins.mapper;
+package website.automate.jenkins.mapper;
 
 import java.util.ArrayList;
 import java.util.Collections;

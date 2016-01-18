@@ -1,4 +1,4 @@
-package website.automate.plugins.jenkins;
+package website.automate.jenkins;
 
 import static hudson.init.InitMilestone.PLUGINS_STARTED;
 import static java.util.Arrays.asList;
@@ -21,19 +21,16 @@ import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.QueryParameter;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamImplicit;
-import com.thoughtworks.xstream.annotations.XStreamInclude;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+import website.automate.jenkins.logging.BuilderLogHandler;
+import website.automate.jenkins.mapper.ProjectMapper;
+import website.automate.jenkins.model.ProjectSerializable;
+import website.automate.jenkins.model.ScenarioSerializable;
+import website.automate.jenkins.service.PluginExecutionService;
 import website.automate.manager.api.client.ProjectRetrievalRemoteService;
 import website.automate.manager.api.client.model.Authentication;
 import website.automate.manager.api.client.model.Project;
 import website.automate.manager.api.client.support.CommunicationException;
-import website.automate.plugins.jenkins.logging.BuilderLogHandler;
-import website.automate.plugins.jenkins.mapper.ProjectMapper;
-import website.automate.plugins.jenkins.model.ProjectSerializable;
-import website.automate.plugins.jenkins.model.ScenarioSerializable;
-import website.automate.plugins.jenkins.service.PluginExecutionService;
 
 import javax.servlet.ServletException;
 
@@ -93,7 +90,7 @@ public class AutomateWebsiteBuilder extends Builder {
      * The class is marked as public so that it can be accessed from views.
      *
      * <p>
-     * See <tt>src/main/resources/website/automate/plugins/jenkins/AutomateWebsiteBuilder/*.jelly</tt>
+     * See <tt>src/main/resources/website/automate/jenkins/AutomateWebsiteBuilder/*.jelly</tt>
      * for the actual HTML fragment for the configuration screen.
      */
     @Extension // This indicates to Jenkins that this is an implementation of an extension point.

@@ -1,4 +1,4 @@
-package website.automate.plugins.jenkins.service;
+package website.automate.jenkins.service;
 
 import static java.lang.String.format;
 import hudson.model.Result;
@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
 
+import website.automate.jenkins.support.ExecutionInterruptionException;
 import website.automate.manager.api.client.JobManagementRemoteService;
 import website.automate.manager.api.client.model.Authentication;
 import website.automate.manager.api.client.model.Job;
@@ -17,7 +18,6 @@ import website.automate.manager.api.client.model.Job.JobStatus;
 import website.automate.manager.api.client.model.Job.TakeScreenshots;
 import website.automate.manager.api.client.model.TestResults;
 import website.automate.manager.api.client.support.Constants;
-import website.automate.plugins.jenkins.support.ExecutionInterruptionException;
 
 public class PluginExecutionService {
 

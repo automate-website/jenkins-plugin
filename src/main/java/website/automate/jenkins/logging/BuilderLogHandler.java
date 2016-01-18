@@ -1,4 +1,4 @@
-package website.automate.plugins.jenkins.logging;
+package website.automate.jenkins.logging;
 
 import static java.lang.String.format;
 

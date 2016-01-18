@@ -1,4 +1,4 @@
-package website.automate.plugins.jenkins.model;
+package website.automate.jenkins.model;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 

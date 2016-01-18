@@ -1,7 +1,7 @@
-package website.automate.plugins.jenkins.mapper;
+package website.automate.jenkins.mapper;
 
+import website.automate.jenkins.model.ScenarioSerializable;
 import website.automate.manager.api.client.model.Scenario;
-import website.automate.plugins.jenkins.model.ScenarioSerializable;
 
 public class ScenarioMapper extends Mapper<Scenario, ScenarioSerializable> {
 
