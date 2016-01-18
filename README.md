@@ -1,5 +1,5 @@
 # Automate Website Jenkins Plugin
-This jenkins plugin allows scenario execution on [automate.website] as part of arbitrary jenkins jobs.
+Integrates Jenkins CI with Automate Website Test Execution Environment.
 Account on [automate.website] is required for meaningful utilization.
 
 Refer to the [changelog] for recent notable changes and modifications.
