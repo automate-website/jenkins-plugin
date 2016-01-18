@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.2.0]
 ### Changed
+- changed artifact and group name
 - changed package names
 - hard wired utilized plugin versions
 
