@@ -10,4 +10,4 @@ Refer to the [wiki pages] for documentation and user information.
 
 [automate.website]: https://automate.website
 [changelog]: CHANGELOG.md
-[wiki pages]: https://github.com/automate-website/jenkins-plugin/wiki/Jenkins-Automate-Website-Plugin
+[wiki pages]: https://github.com/automate-website/jenkins-plugin/wiki/Documentation
