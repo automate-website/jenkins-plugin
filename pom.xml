@@ -8,35 +8,48 @@
         <version>1.580.1</version>
         <relativePath />
     </parent>
+    
     <groupId>website.automate.jenkins</groupId>
     <artifactId>jenkins-automate-website-plugin</artifactId>
     <version>0.2.1-SNAPSHOT</version>
     <packaging>hpi</packaging>
     
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>Integrates Jenkins CI with Automate Website Test Execution Environment.</description>
+    <url>https://github.com/automate-website/jenkins-plugin</url>
+        
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
-
-    <organization>
-        <name>Automate Website</name>
-        <url>https://github.com/automate-website</url>
-    </organization>
     
-    <description>Integrates Jenkins CI with Automate Website Test Execution Environment</description>
-
+    <developers>
+       <developer>
+        <name>Dmitri Wolowelsky</name>
+        <email>dmitri.wolowelsky@automate.website</email>
+        <organization>Automate Website</organization>
+        <organizationUrl>https://automate.website</organizationUrl>
+       </developer>
+       <developer>
+        <name>Michael Lewkowski</name>
+        <email>michael.lewkowski@automate.website</email>
+        <organization>Automate Website</organization>
+        <organizationUrl>https://automate.website</organizationUrl>
+       </developer>
+    </developers>
+    
     <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>http://opensource.org/licenses/MIT</url>
-        </license>
+      <license>
+        <name>MIT License</name>
+        <url>http://www.opensource.org/licenses/mit-license.php</url>
+      </license>
     </licenses>
 
     <dependencies>
         <dependency>
             <groupId>website.automate</groupId>
             <artifactId>manager-api-client</artifactId>
-            <version>0.1.1</version>
+            <version>0.2.0</version>
         </dependency>
         <dependency>
             <artifactId>httpcore</artifactId>
@@ -59,23 +72,55 @@
               <version>0.7.5.201505241946</version>
               <executions>
                 <execution>
-                  <goals>
-                    <goal>prepare-agent</goal>
-                  </goals>
+                    <id>pre-unit-test</id>
+                    <goals>
+                        <goal>prepare-agent</goal>
+                    </goals>
+                    <configuration>
+                        <destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
+                        <propertyName>surefireArgLine</propertyName>
+                    </configuration>
                 </execution>
                 <execution>
-                  <id>report</id>
-                  <phase>test</phase>
-                  <goals>
-                    <goal>report</goal>
-                  </goals>
+                    <id>post-unit-test</id>
+                    <phase>test</phase>
+                    <goals>
+                        <goal>report</goal>
+                    </goals>
+                    <configuration>
+                        <dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
+                        <outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
+                    </configuration>
                 </execution>
-              </executions>
+                <execution>
+                    <id>pre-integration-test</id>
+                    <phase>pre-integration-test</phase>
+                    <goals>
+                        <goal>prepare-agent</goal>
+                    </goals>
+                    <configuration>
+                        <destFile>${project.build.directory}/coverage-reports/jacoco-it.exec</destFile>
+                        <propertyName>failsafeArgLine</propertyName>
+                    </configuration>
+                </execution>
+                <execution>
+                    <id>post-integration-test</id>
+                    <phase>post-integration-test</phase>
+                    <goals>
+                        <goal>report</goal>
+                    </goals>
+                    <configuration>
+                        <dataFile>${project.build.directory}/coverage-reports/jacoco-it.exec</dataFile>
+                        <outputDirectory>${project.reporting.outputDirectory}/jacoco-it</outputDirectory>
+                    </configuration>
+                </execution>
+            </executions>
             </plugin>
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.19.1</version>
                 <configuration>
+                    <argLine>${failsafeArgLine}</argLine>
                     <includes>
                         <include>**/*IT.class</include>
                     </includes>
@@ -94,6 +139,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <includes>
+                        <argLine>${surefireArgLine}</argLine>
                         <include>**/*Test.java</include>
                     </includes>
                 </configuration>
@@ -120,39 +166,75 @@
                   </execution>
                 </executions>
           </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <executions>
+            <execution>
+              <id>attach-javadocs</id>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+            </execution>
+            </executions>
+            </plugin>
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>sign-artifacts</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    
+    <distributionManagement>
+        <snapshotRepository>
+          <id>ossrh</id>
+          <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+          <id>ossrh</id>
+          <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+  
+    <repositories>
+        <repository>
+            <id>repo.jenkins-ci.org</id>
+            <name>repo.jenkins-ci.org</name>
+            <url>http://repo.jenkins-ci.org/public/</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>repo.jenkins-ci.org</id>
+            <name>repo.jenkins-ci.org</name>
+            <url>http://repo.jenkins-ci.org/public/</url>
+        </pluginRepository>
+    </pluginRepositories>
+    
     <scm>
         <url>https://github.com/automate-website/jenkins-plugin</url>
         <connection>scm:git:git@github.com:automate-website/jenkins-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:automate-website/jenkins-plugin.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
-    
-    <distributionManagement>
-        <repository>
-            <id>repository.automate.website-releases</id>
-            <name>repository.automate.website-releases</name>
-            <url>http://repository.automate.website/artifactory/automate.website-release</url>
-        </repository>
-        <snapshotRepository>
-            <id>repository.automate.website-snapshots</id>
-            <url>http://repository.automate.website/artifactory/automate.website-snapshot</url>
-        </snapshotRepository>
-    </distributionManagement>
-    <repositories>
-        <repository>
-            <id>repository.automate.website</id>
-            <name>repository.automate.website</name>
-            <url>http://repository.automate.website/artifactory/automate.website</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>repository.automate.website</id>
-            <name>repository.automate.website</name>
-            <url>http://repository.automate.website/artifactory/automate.website</url>
-        </pluginRepository>
-    </pluginRepositories>
 </project>
