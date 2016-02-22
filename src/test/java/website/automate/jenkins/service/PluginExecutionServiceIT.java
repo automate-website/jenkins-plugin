@@ -22,7 +22,7 @@ import website.automate.manager.api.client.model.Job.TakeScreenshots;
 import website.automate.manager.api.client.model.TestResults;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PluginExecutionServiceTest {
+public class PluginExecutionServiceIT {
 
     private static final String
         JOB_TITLE = "Awesome job",
