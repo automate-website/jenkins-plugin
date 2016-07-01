@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Changed
+- upgraded to manager-api-client 0.3.1
+- added environment variables execution context delegation
+
 ## [0.3.0]
 ### Changed
 - migrated to oss.sonatype.org distribution management

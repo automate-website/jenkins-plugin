@@ -15,7 +15,7 @@ public class ScenarioMapper extends Mapper<Scenario, ScenarioSerializable> {
     public ScenarioSerializable map(Scenario source) {
         ScenarioSerializable target = new ScenarioSerializable();
         target.setId(source.getId());
-        target.setTitle(source.getTitle());
+        target.setName(source.getName());
         return target;
     }
 

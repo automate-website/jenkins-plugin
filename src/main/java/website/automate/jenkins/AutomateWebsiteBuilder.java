@@ -3,6 +3,7 @@ package website.automate.jenkins;
 import static hudson.init.InitMilestone.PLUGINS_STARTED;
 import static java.util.Arrays.asList;
 import hudson.Launcher;
+import hudson.EnvVars;
 import hudson.Extension;
 import hudson.util.FormValidation;
 import hudson.util.ListBoxModel;
@@ -26,6 +27,7 @@ import website.automate.jenkins.logging.BuilderLogHandler;
 import website.automate.jenkins.mapper.ProjectMapper;
 import website.automate.jenkins.model.ProjectSerializable;
 import website.automate.jenkins.model.ScenarioSerializable;
+import website.automate.jenkins.service.ContextParameterResolver;
 import website.automate.jenkins.service.PluginExecutionService;
 import website.automate.manager.api.client.ProjectRetrievalRemoteService;
 import website.automate.manager.api.client.model.Authentication;
@@ -44,7 +46,9 @@ public class AutomateWebsiteBuilder extends Builder {
     private final String project;
     
     private String scenario;
-
+    
+    private ContextParameterResolver contextParameterResolver = ContextParameterResolver.getInstance();
+    
     @DataBoundConstructor
     public AutomateWebsiteBuilder(String project, String scenario) {
         this.project = project;
@@ -63,11 +67,22 @@ public class AutomateWebsiteBuilder extends Builder {
     @Override
     public boolean perform(AbstractBuild build, Launcher launcher, BuildListener listener) {
     	PluginExecutionService pluginExecutionService = PluginExecutionService.getInstance();
-    	Result result = pluginExecutionService.execute((asList(getScenarioId())), 
+    	EnvVars envVars = getEnvironmentVariables(build, listener);
+    	Result result = pluginExecutionService.execute(contextParameterResolver.resolve(envVars),
+    	        asList(getScenarioId()), 
     			getDescriptor().getAuthentication(),
     			BuilderLogHandler.getInstance(listener.getLogger()));
     	build.setResult(result);
         return true;
+    }
+    
+    @SuppressWarnings("rawtypes")
+    private EnvVars getEnvironmentVariables(AbstractBuild build, BuildListener listener){
+        try {
+            return build.getEnvironment(listener);
+        } catch (Exception e) {
+            return new EnvVars();
+        }
     }
     
     private String getScenarioId(){
@@ -201,7 +216,7 @@ public class AutomateWebsiteBuilder extends Builder {
             }
 
             for(ScenarioSerializable scenario : scenarios){
-                items.add(scenario.getTitle(),  asComboId(projectId, scenario.getId()));
+                items.add(scenario.getName(),  asComboId(projectId, scenario.getId()));
             }
             
             return items;
