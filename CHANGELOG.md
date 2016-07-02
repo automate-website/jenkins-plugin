@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.5.0]
 ### Added
 - introduced plugin configuration parameters
 
@@ -32,7 +33,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - created initial implementation of the jenkins plugin
 
-[Unreleased]: https://github.com/automate-website/jenkins-plugin/compare/0.4.0...HEAD
+[Unreleased]: https://github.com/automate-website/jenkins-plugin/compare/0.5.0...HEAD
+[0.5.0]: https://github.com/automate-website/jenkins-plugin/compare/0.4.0...0.5.0
 [0.4.0]: https://github.com/automate-website/jenkins-plugin/compare/0.3.0...0.4.0
 [0.3.0]: https://github.com/automate-website/jenkins-plugin/compare/0.2.0...0.3.0
 [0.2.0]: https://github.com/automate-website/jenkins-plugin/compare/0.1.0...0.2.0

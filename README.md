@@ -16,4 +16,4 @@ Refer to the [wiki pages] for documentation and user information.
 [automate.website]: https://automate.website
 [changelog]: CHANGELOG.md
 [wiki pages]: https://github.com/automate-website/jenkins-plugin/wiki/Home
-[here]: http://repo1.maven.org/maven2/website/automate/jenkins/jenkins-automate-website-plugin/0.4.0/jenkins-automate-website-plugin-0.4.0.hpi
+[here]: http://repo1.maven.org/maven2/website/automate/jenkins/jenkins-automate-website-plugin/0.5.0/jenkins-automate-website-plugin-0.5.0.hpi
