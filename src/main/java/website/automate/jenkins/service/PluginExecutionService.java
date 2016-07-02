@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
 
+import website.automate.jenkins.support.BuildConfig;
 import website.automate.jenkins.support.ExecutionInterruptionException;
 import website.automate.manager.api.client.JobManagementRemoteService;
 import website.automate.manager.api.client.model.Authentication;
@@ -24,23 +25,15 @@ public class PluginExecutionService {
 
     private static final PluginExecutionService INSTANCE = new PluginExecutionService();
 
-    private static final long DEFAULT_JOB_STATUS_CHECK_INTERVAL_IN_SEC = 30;
-
-    private static final long DEFAULT_EXECUTION_TIMEOUT_IN_SEC = 300;
-
     private static final Logger LOGGER = Logger.getLogger(PluginExecutionService.class.getSimpleName());
 
     private JobManagementRemoteService jobManagementRemoteService = JobManagementRemoteService.getInstance();
-
-    private long jobStatusCheckIntervalInSec = DEFAULT_JOB_STATUS_CHECK_INTERVAL_IN_SEC;
-
-    private long executionTimeoutInSec = DEFAULT_EXECUTION_TIMEOUT_IN_SEC;
 
     public static PluginExecutionService getInstance() {
         return INSTANCE;
     }
 
-    public Result execute(Map<String, String> context, Collection<String> scenarioIds, Authentication principal, Handler handler) {
+    public Result execute(BuildConfig buildConfig, Collection<String> scenarioIds, Authentication principal, Handler handler) {
         LOGGER.addHandler(handler);
 
         if (scenarioIds == null || scenarioIds.isEmpty()) {
@@ -48,18 +41,18 @@ public class PluginExecutionService {
             return Result.SUCCESS;
         }
         LOGGER.info(format("Creating jobs for selected scenarios %s ...", scenarioIds));
-        List<Job> createdJobs = jobManagementRemoteService.createJobs(createJobs(context, scenarioIds), principal);
+        List<Job> createdJobs = jobManagementRemoteService.createJobs(createJobs(buildConfig.getContext(), scenarioIds), principal);
         long jobsCreatedMillis = System.currentTimeMillis();
 
         Collection<String> createdJobIds = asJobIds(createdJobs);
         List<Job> updatedJobs;
 
         do {
-            if (System.currentTimeMillis() - jobsCreatedMillis >= executionTimeoutInSec * 1000) {
+            if (System.currentTimeMillis() - jobsCreatedMillis >= buildConfig.getExecutionTimeoutSec() * 1000) {
                 break;
             }
             try {
-                Thread.sleep(jobStatusCheckIntervalInSec * 1000);
+                Thread.sleep(buildConfig.getJobStatusCheckIntervalSec() * 1000);
             } catch (InterruptedException e) {
                 throw new ExecutionInterruptionException("Unexpected plugin execution thread interrupt occured.", e);
             }

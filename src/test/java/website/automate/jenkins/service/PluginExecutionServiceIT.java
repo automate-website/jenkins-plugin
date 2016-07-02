@@ -16,6 +16,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import website.automate.jenkins.logging.NoOpLogHandler;
 import website.automate.jenkins.service.PluginExecutionService;
+import website.automate.jenkins.support.BuildConfig;
 import website.automate.manager.api.client.JobManagementRemoteService;
 import website.automate.manager.api.client.model.Authentication;
 import website.automate.manager.api.client.model.Job;
@@ -37,7 +38,7 @@ public class PluginExecutionServiceIT {
 
     @Test
     public void executionShouldSucceed() {
-        Map<String, String> context = singletonMap("key", "value");
+        Map<String, String> configParameters = singletonMap("key", "value");
         Authentication principal = Authentication.of(USERNAME, PASSWORD);
         List<Job> jobs = asList(createJob(SCENARIO_ID));
         when(jobManagementRemoteService.createJobs(jobs, principal))
@@ -47,7 +48,7 @@ public class PluginExecutionServiceIT {
         when(jobManagementRemoteService.getJobsByIdsAndPrincipal(asList(JOB_ID), principal, JobProfile.MINIMAL))
                 .thenReturn(asList(createJob(JOB_ID, JOB_TITLE, SCENARIO_ID, JobStatus.SUCCESS)));
 
-        executionService.execute(context, asList(SCENARIO_ID), principal, NoOpLogHandler.getInstance());
+        executionService.execute(new BuildConfig(configParameters), asList(SCENARIO_ID), principal, NoOpLogHandler.getInstance());
     }
 
     private Job createJob(String scenarioId) {

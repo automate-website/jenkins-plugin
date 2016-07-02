@@ -27,8 +27,8 @@ import website.automate.jenkins.logging.BuilderLogHandler;
 import website.automate.jenkins.mapper.ProjectMapper;
 import website.automate.jenkins.model.ProjectSerializable;
 import website.automate.jenkins.model.ScenarioSerializable;
-import website.automate.jenkins.service.ContextParameterResolver;
 import website.automate.jenkins.service.PluginExecutionService;
+import website.automate.jenkins.support.BuildConfig;
 import website.automate.manager.api.client.ProjectRetrievalRemoteService;
 import website.automate.manager.api.client.model.Authentication;
 import website.automate.manager.api.client.model.Project;
@@ -46,8 +46,6 @@ public class AutomateWebsiteBuilder extends Builder {
     private final String project;
     
     private String scenario;
-    
-    private ContextParameterResolver contextParameterResolver = ContextParameterResolver.getInstance();
     
     @DataBoundConstructor
     public AutomateWebsiteBuilder(String project, String scenario) {
@@ -68,7 +66,7 @@ public class AutomateWebsiteBuilder extends Builder {
     public boolean perform(AbstractBuild build, Launcher launcher, BuildListener listener) {
     	PluginExecutionService pluginExecutionService = PluginExecutionService.getInstance();
     	EnvVars envVars = getEnvironmentVariables(build, listener);
-    	Result result = pluginExecutionService.execute(contextParameterResolver.resolve(envVars),
+    	Result result = pluginExecutionService.execute(new BuildConfig(envVars),
     	        asList(getScenarioId()), 
     			getDescriptor().getAuthentication(),
     			BuilderLogHandler.getInstance(listener.getLogger()));

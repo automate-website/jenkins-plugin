@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- introduced plugin configuration parameters
+
 ## [0.4.0]
 ### Changed
 - upgraded to manager-api-client 0.3.1
