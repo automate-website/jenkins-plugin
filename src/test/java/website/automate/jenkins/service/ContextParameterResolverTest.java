@@ -13,13 +13,11 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import hudson.EnvVars;
-
 @RunWith(MockitoJUnitRunner.class)
 public class ContextParameterResolverTest {
 
     private static final String 
-        ENV_PARAM_NAME = "automate.website.context.x",
+        ENV_PARAM_NAME = "website.automate.context.x",
         CONTEXT_PARAM_NAME = "x",
         CONTEXT_PARAM_VALUE = "y",
         NON_ENV_PARAM_NAME = "x",
@@ -28,24 +26,24 @@ public class ContextParameterResolverTest {
     private ContextParameterResolver resolver = ContextParameterResolver.getInstance();
     
     @Mock
-    private EnvVars envVars;
+    private Map<String, String> contextParameters;
     
     @Test
     public void contextParameterIsExtracted(){
-        when(envVars.keySet()).thenReturn(singleton(ENV_PARAM_NAME));
-        when(envVars.get(ENV_PARAM_NAME)).thenReturn(CONTEXT_PARAM_VALUE);
+        when(contextParameters.keySet()).thenReturn(singleton(ENV_PARAM_NAME));
+        when(contextParameters.get(ENV_PARAM_NAME)).thenReturn(CONTEXT_PARAM_VALUE);
         
-        Map<String, String> context = resolver.resolve(envVars);
+        Map<String, String> context = resolver.resolve(contextParameters);
         
         assertThat(context.get(CONTEXT_PARAM_NAME), is(CONTEXT_PARAM_VALUE));
     }
     
     @Test
     public void nonContextParamIsNotExtracted(){
-        when(envVars.keySet()).thenReturn(singleton(NON_ENV_PARAM_NAME));
-        when(envVars.get(NON_ENV_PARAM_NAME)).thenReturn(NON_CONTEXT_PARAM_VALUE);
+        when(contextParameters.keySet()).thenReturn(singleton(NON_ENV_PARAM_NAME));
+        when(contextParameters.get(NON_ENV_PARAM_NAME)).thenReturn(NON_CONTEXT_PARAM_VALUE);
         
-        Map<String, String> context = resolver.resolve(envVars);
+        Map<String, String> context = resolver.resolve(contextParameters);
         
         assertTrue(context.isEmpty());
     }
