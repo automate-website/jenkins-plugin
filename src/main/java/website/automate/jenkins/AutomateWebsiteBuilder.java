@@ -183,7 +183,7 @@ public class AutomateWebsiteBuilder extends Builder {
         private List<ProjectSerializable> retrieveAndMapProjects(String username, String password){
             List<Project> projects = ProjectRetrievalRemoteService
                     .getInstance()
-                    .getProjectsWithScenariosByPrincipal(Authentication.of(username, password));
+                    .getProjectsWithExecutableScenariosByPrincipal(Authentication.of(username, password));
             
             return PROJECT_MAPPER.safeMapList(projects);
         }
