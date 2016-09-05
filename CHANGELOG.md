@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- bumped the manager-client-api version
+
 ## [0.6.0]
 ### Changed
 - retrieve only executable scenarios (non fragments)
