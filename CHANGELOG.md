@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.7.0]
 ### Changed
 - bumped the manager-client-api version
 
@@ -40,7 +41,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - created initial implementation of the jenkins plugin
 
-[Unreleased]: https://github.com/automate-website/jenkins-plugin/compare/0.6.0...HEAD
+[Unreleased]: https://github.com/automate-website/jenkins-plugin/compare/0.7.0...HEAD
+[0.7.0]: https://github.com/automate-website/jenkins-plugin/compare/0.6.0...0.7.0
 [0.6.0]: https://github.com/automate-website/jenkins-plugin/compare/0.5.0...0.6.0
 [0.5.0]: https://github.com/automate-website/jenkins-plugin/compare/0.4.0...0.5.0
 [0.4.0]: https://github.com/automate-website/jenkins-plugin/compare/0.3.0...0.4.0
