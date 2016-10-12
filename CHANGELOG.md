@@ -4,6 +4,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+- fixed serialization/deserialization of the descriptor and related models by changing aliases
+
+### Added
+- added alias for the builder serialization/deserialization
+
 ## [0.7.0]
 ### Changed
 - bumped the manager-client-api version
