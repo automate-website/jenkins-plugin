@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.0.0]
 ### Fixed
 - fixed serialization/deserialization of the descriptor and related models by changing aliases
 
@@ -47,7 +48,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - created initial implementation of the jenkins plugin
 
-[Unreleased]: https://github.com/automate-website/jenkins-plugin/compare/0.7.0...HEAD
+[Unreleased]: https://github.com/automate-website/jenkins-plugin/compare/1.0.0...HEAD
+[1.0.0]: https://github.com/automate-website/jenkins-plugin/compare/0.7.0...1.0.0
 [0.7.0]: https://github.com/automate-website/jenkins-plugin/compare/0.6.0...0.7.0
 [0.6.0]: https://github.com/automate-website/jenkins-plugin/compare/0.5.0...0.6.0
 [0.5.0]: https://github.com/automate-website/jenkins-plugin/compare/0.4.0...0.5.0
