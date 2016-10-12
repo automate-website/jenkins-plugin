@@ -6,14 +6,14 @@ import java.util.List;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
-@XStreamAlias("project")
+@XStreamAlias("automate-website-project")
 public class ProjectSerializable extends AbstractSerializable {
 
     private static final long serialVersionUID = -8623239093817690252L;
 
     private String title;
     
-    @XStreamImplicit(itemFieldName="scenario")
+    @XStreamImplicit(itemFieldName="automate-website-scenario")
     private List<ScenarioSerializable> scenarios = new ArrayList<ScenarioSerializable>();
 
     public String getTitle() {
