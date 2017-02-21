@@ -2,7 +2,7 @@ package website.automate.jenkins.support;
 
 import java.util.Map;
 
-import website.automate.jenkins.service.ContextParameterResolver;
+import website.automate.jenkins.service.JobConfigResolver;
 
 public class BuildConfig {
 
@@ -18,12 +18,12 @@ public class BuildConfig {
     
     private long jobStatusCheckIntervalSec;
     
-    private Map<String, String> context;
+    private JobConfig jobConfig;
     
     public BuildConfig(Map<String, String> configParameters){
         this.executionTimeoutSec = getParamValueAsLong(configParameters, PROPERTY_NAME_EXECUTION_TIMEOUT_SEC, DEFAULT_EXECUTION_TIMEOUT_IN_SEC);
         this.jobStatusCheckIntervalSec = getParamValueAsLong(configParameters, PROPERTY_NAME_JOB_STATUS_CHECK_INTERVAL_SEC, DEFAULT_JOB_STATUS_CHECK_INTERVAL_IN_SEC);
-        this.context = ContextParameterResolver.getInstance().resolve(configParameters);
+        this.jobConfig = JobConfigResolver.getInstance().resolve(configParameters);
     }
 
     public long getExecutionTimeoutSec() {
@@ -34,8 +34,8 @@ public class BuildConfig {
         return jobStatusCheckIntervalSec;
     }
 
-    public Map<String, String> getContext() {
-        return context;
+    public JobConfig getJobConfig() {
+        return jobConfig;
     }
     
     private static long getParamValueAsLong(Map<String, String> configParameters, String paramName, long defaultValue){

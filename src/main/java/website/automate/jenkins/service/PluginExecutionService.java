@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
 
 import website.automate.jenkins.support.BuildConfig;
 import website.automate.jenkins.support.ExecutionInterruptionException;
+import website.automate.jenkins.support.JobConfig;
 import website.automate.manager.api.client.JobManagementRemoteService;
 import website.automate.manager.api.client.model.Authentication;
 import website.automate.manager.api.client.model.Job;
@@ -41,7 +41,7 @@ public class PluginExecutionService {
             return Result.SUCCESS;
         }
         LOGGER.info(format("Creating jobs for selected scenarios %s ...", scenarioIds));
-        List<Job> createdJobs = jobManagementRemoteService.createJobs(createJobs(buildConfig.getContext(), scenarioIds), principal);
+        List<Job> createdJobs = jobManagementRemoteService.createJobs(createJobs(buildConfig.getJobConfig(), scenarioIds), principal);
         long jobsCreatedMillis = System.currentTimeMillis();
 
         Collection<String> createdJobIds = asJobIds(createdJobs);
@@ -118,17 +118,20 @@ public class PluginExecutionService {
         return jobIds;
     }
 
-    private Collection<Job> createJobs(Map<String, String> context, Collection<String> scenarioIds) {
+    private Collection<Job> createJobs(JobConfig jobConfig, Collection<String> scenarioIds) {
         List<Job> jobs = new ArrayList<Job>();
-        jobs.add(createJob(context, scenarioIds));
+        jobs.add(createJob(jobConfig, scenarioIds));
         return jobs;
     }
 
-    private Job createJob(Map<String, String> context, Collection<String> scenarioIds) {
+    private Job createJob(JobConfig jobConfig, Collection<String> scenarioIds) {
         Job job = new Job();
         job.setScenarioIds(new HashSet<String>(scenarioIds));
         job.setTakeScreenshots(TakeScreenshots.ON_FAILURE);
-        job.setContext(context);
+        job.setContext(jobConfig.getContext());
+        job.setBoxId(jobConfig.getBoxId());
+        job.setTimeout(jobConfig.getTimeout());
+        job.setResolution(jobConfig.getResolution());
         return job;
     }
 }

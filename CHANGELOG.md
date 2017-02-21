@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- updated to manager-api-client 0.8.0 (introduced resolution, timeout and box-id config params)
+
 ## [1.0.0]
 ### Fixed
 - fixed serialization/deserialization of the descriptor and related models by changing aliases
