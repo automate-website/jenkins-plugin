@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.1.0]
+
 ### Changed
 - updated to manager-api-client 0.8.0 (introduced resolution, timeout and box-id config params)
 
@@ -51,7 +53,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - created initial implementation of the jenkins plugin
 
-[Unreleased]: https://github.com/automate-website/jenkins-plugin/compare/1.0.0...HEAD
+[Unreleased]: https://github.com/automate-website/jenkins-plugin/compare/1.1.0...HEAD
+[1.1.0]: https://github.com/automate-website/jenkins-plugin/compare/1.0.0...1.1.0
 [1.0.0]: https://github.com/automate-website/jenkins-plugin/compare/0.7.0...1.0.0
 [0.7.0]: https://github.com/automate-website/jenkins-plugin/compare/0.6.0...0.7.0
 [0.6.0]: https://github.com/automate-website/jenkins-plugin/compare/0.5.0...0.6.0
